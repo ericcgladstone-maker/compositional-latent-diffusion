@@ -1,0 +1,13 @@
+eviction,capacity,from_below,from_above,bistability_gap
+random,4,0.1264,0.5,0.3736
+random,5,0.3183,0.5,0.1817
+random,6,0.6483,1.0,0.3517
+random,7,0.9947,1.0,0.0053
+random,8,0.9998,1.0,0.0002
+random,10,0.9998,1.0,0.0002
+value_weighted,4,0.4616,0.5,0.0384
+value_weighted,5,0.5145,0.5,-0.0145
+value_weighted,6,0.885,1.0,0.115
+value_weighted,7,0.996,1.0,0.004
+value_weighted,8,0.9998,1.0,0.0002
+value_weighted,10,0.9998,1.0,0.0002

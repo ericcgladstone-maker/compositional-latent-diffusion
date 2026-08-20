@@ -1,0 +1,9 @@
+arm,density,regime,capacity,change_agent_fraction,final,partial_holder,full_not_manifest,final_sd,n
+piecemeal,0.0,permissive,6,0.0,0.4975,0.4963,0.0,0.0349,200
+piecemeal,0.0,permissive,6,0.2,0.4998,0.4992,0.0002,0.0013,200
+piecemeal,0.0,constrained,4,0.0,0.4975,0.4963,0.0,0.0349,200
+piecemeal,0.0,constrained,4,0.2,0.4998,0.4992,0.0002,0.0013,200
+piecemeal,0.05,permissive,6,0.0,0.6673,0.3205,0.0123,0.0901,200
+piecemeal,0.05,permissive,6,0.2,0.7147,0.2753,0.01,0.083,200
+piecemeal,0.05,constrained,4,0.0,0.1213,0.8608,0.004,0.0652,200
+piecemeal,0.05,constrained,4,0.2,0.1988,0.7819,0.0053,0.0757,200

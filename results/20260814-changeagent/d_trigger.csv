@@ -1,0 +1,9 @@
+part,regime,capacity,trigger_type,change_agent_fraction,final,peak,overshoot,lapse_rate,carrier_per_bt,pure_carrier,final_sd,n
+D,permissive,6,exogenous,0.0,0.6673,0.7863,0.1191,0.1856,0.3327,0.066,0.0901,200
+D,permissive,6,exogenous,0.2,0.7147,0.8155,0.1007,0.1607,0.2853,0.0408,0.083,200
+D,permissive,6,endogenous,0.0,0.7762,0.8071,0.031,0.2341,0.2238,0.0046,0.0506,200
+D,permissive,6,endogenous,0.2,0.7938,0.8229,0.0291,0.1993,0.2062,0.0015,0.0579,200
+D,constrained,4,exogenous,0.0,0.1213,0.253,0.1317,0.2112,0.8647,0.7574,0.0652,200
+D,constrained,4,exogenous,0.2,0.1988,0.3474,0.1486,0.2734,0.7872,0.6024,0.0757,200
+D,constrained,4,endogenous,0.0,0.1514,0.1973,0.0459,0.2337,0.8347,0.6973,0.0573,200
+D,constrained,4,endogenous,0.2,0.2478,0.3191,0.0713,0.3428,0.7385,0.5044,0.0633,200

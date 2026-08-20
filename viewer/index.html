@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latent Adoption ABM — live viewer</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>Latent Adoption ABM</h1>
+  <span class="sub">combinatoric diffusion · live viewer</span>
+  <span id="conn" class="bad">connecting…</span>
+</header>
+
+<div class="layout">
+  <!-- LEFT: controls -->
+  <aside class="sidebar">
+    <div class="card phasebox">
+      <h2>Build stage</h2>
+      <select id="phase"></select>
+      <div class="desc" id="phaseDesc"></div>
+      <div class="predict" id="phasePredict"></div>
+      <div class="btnrow" style="margin-top:10px">
+        <button id="buildPhase">Load phase</button>
+        <button id="buildCustom" class="ghost">Build from sliders</button>
+      </div>
+      <div class="note" style="margin-top:6px">
+        Every parameter below is live. Numeric/boolean/mechanism tweaks apply on the
+        fly (the Schelling knob). Structural changes (network, counts, encoding,
+        seeding) take effect on <b>Reset</b> / Build.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Parameters <span class="tag" id="paramCount"></span></h2>
+      <div id="params"></div>
+    </div>
+  </aside>
+
+  <!-- RIGHT: run + viz + sweep -->
+  <main class="main">
+    <div class="card">
+      <h2>Run</h2>
+      <div class="btnrow">
+        <button id="run">▶ Run</button>
+        <button id="pause" class="ghost">⏸ Pause</button>
+        <button id="step" class="ghost">⏭ Step</button>
+        <button id="reset" class="ghost">↺ Reset</button>
+        <label class="note">fps <input id="fps" type="number" value="20" min="1" max="120" style="width:62px"></label>
+        <label class="note">max ticks <input id="maxTicks" type="number" value="1000" min="1" style="width:80px"></label>
+        <span id="tickReadout" class="note" style="margin-left:auto"></span>
+      </div>
+      <div class="progress"><div id="runBar"></div></div>
+    </div>
+
+    <div class="card">
+      <h2>Live measures</h2>
+      <div class="metrics" id="metrics"></div>
+    </div>
+
+    <div class="viz-grid">
+      <div class="card">
+        <h2>Network — colored by status</h2>
+        <canvas id="net" width="520" height="420"></canvas>
+        <div class="legend">
+          <span><i style="background:#cbd5e1"></i>none</span>
+          <span><i style="background:#facc15"></i>at-risk (one short)</span>
+          <span><i style="background:#fb923c"></i>latent</span>
+          <span><i style="background:#3b82f6"></i>manifest α</span>
+          <span><i style="background:#ef4444"></i>manifest β</span>
+          <span><i style="background:#10b981"></i>manifest γ+</span>
+          <span><i style="background:#fff;border:2px solid #f0abfc"></i>change agent</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Dynamics over time</h2>
+        <canvas id="chart" width="520" height="420"></canvas>
+        <div class="legend">
+          <span><i style="background:#38bdf8"></i>manifest share</span>
+          <span><i style="background:#a3e635"></i>element saturation</span>
+          <span><i style="background:#f472b6"></i>observability gap</span>
+          <span><i style="background:#fbbf24"></i>α manifest</span>
+          <span><i style="background:#fb7185"></i>β manifest</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Headless sweep (auto-saves to results/)</h2>
+      <div class="note">Run a single phase's focal sweep, or the full V0→end path.
+        Results write to disk after every cell, so interrupted overnight runs keep their partial output.</div>
+      <div class="btnrow" style="margin-top:10px">
+        <select id="sweepPhase"></select>
+        <label class="note">replications <input id="reps" type="number" value="30" min="1" max="100" style="width:64px"></label>
+        <label class="note"><input id="invariants" type="checkbox"> assert invariants</label>
+        <button id="runSweep">Run sweep</button>
+      </div>
+      <div class="progress"><div id="sweepBar"></div></div>
+      <div class="log" id="sweepLog"></div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

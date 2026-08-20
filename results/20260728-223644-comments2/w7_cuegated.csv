@@ -1,0 +1,5 @@
+mode,final,pre_trigger,overshoot,lapse_rate,observability_gap
+elements_only,0.6528,0.0,0.1287,0.2436,0.0943
+whole_package,0.9918,0.0,0.0082,0.5735,-0.1739
+whole_package_gated,0.8902,0.0,0.0605,0.2019,-0.0405
+both,0.9937,0.0,0.0052,0.617,-0.1716

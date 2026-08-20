@@ -1,0 +1,19 @@
+knob,level,elements_only,whole_package,wedge_gap,obs_gap_peak_elements_only
+requirement_size,R=1 (k=1),0.634,0.9941,0.3601,0.6008
+requirement_size,R=2 (k=2),0.3786,0.9899,0.6113,0.607
+requirement_size,R=3 (k=2),0.8091,0.9974,0.1883,0.6058
+requirement_size,R=4 (k=3),0.6483,0.9942,0.3459,0.6086
+requirement_size,R=5 (k=4),0.2586,0.4745,0.2159,0.5709
+requirement_size,R=6 (k=4),0.2301,0.4808,0.2507,0.4918
+topology,small_world,0.6483,0.9942,0.3459,0.6086
+topology,random,0.6458,0.9923,0.3465,0.596
+topology,ring_lattice,0.6644,0.9951,0.3307,0.5972
+topology,uniform_mixing,0.6175,0.9928,0.3753,0.681
+mean_degree,4,0.6743,0.9951,0.3208,0.5663
+mean_degree,6,0.6483,0.9942,0.3459,0.6086
+mean_degree,10,0.6444,0.9946,0.3502,0.6424
+n_agents,100,0.6483,0.9942,0.3459,0.6086
+n_agents,300,0.6567,0.995,0.3383,0.6086
+transmission_prob,0.05,0.7043,0.9979,0.2936,0.4513
+transmission_prob,0.1,0.6483,0.9942,0.3459,0.6086
+transmission_prob,0.2,0.6048,0.9883,0.3835,0.7294

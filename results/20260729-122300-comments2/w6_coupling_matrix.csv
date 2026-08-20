@@ -1,0 +1,14 @@
+kind,value,final,final_sd,n,lapse_rate,scalar_final
+off_diagonal,-1.0,0.5165,0.0249,200,0.081,
+off_diagonal,-0.5,0.5943,0.0561,200,0.182,
+off_diagonal,0.0,0.6482,0.0804,200,0.248,
+off_diagonal,0.5,0.6737,0.1032,200,0.279,
+off_diagonal,1.0,0.6949,0.0851,200,0.298,
+diagonal,0.0,0.6482,0.0804,200,0.248,
+diagonal,0.25,0.6795,0.0859,200,0.257,
+diagonal,0.5,0.6778,0.0938,200,0.269,
+diagonal,1.0,0.69,0.0983,200,0.275,
+validate_scalar_equiv,-1.0,0.6056,,,,0.8871
+validate_scalar_equiv,-0.5,0.6396,,,,0.8471
+validate_scalar_equiv,0.5,0.6764,,,,0.5625
+validate_scalar_equiv,1.0,0.7601,,,,0.5553

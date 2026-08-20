@@ -1,0 +1,5 @@
+requirement_size,trigger_time,barriers,elements_only,whole_package,wedge_gap
+1,1,none,0.7505,0.9946,0.2441
+1,100,activation only,0.634,0.9941,0.3601
+4,1,assembly only,0.7817,0.9977,0.216
+4,100,both,0.6483,0.9942,0.3459

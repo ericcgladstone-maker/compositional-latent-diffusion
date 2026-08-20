@@ -1,0 +1,9 @@
+phase,focal_param,focal_value,rep,seed,ticks_run,final_element_saturation,final_bigthing_element_saturation,final_manifest_share,final_observability_gap,alpha_manifest,alpha_latent,alpha_at_risk,alpha_resistant,alpha_n_variants,beta_manifest,beta_latent,beta_at_risk,beta_resistant,beta_n_variants,time_to_first_manifest,max_single_tick_jump,max_jump_tick,time_to_half_cascade
+V0,initial_element_density,0.05,0,0,975,0.9988,0.9986,1.0,-0.0014,100,0,0,0,4,100,0,0,0,4,7,0.02,133,184
+V0,initial_element_density,0.05,1,1,922,0.9988,0.9986,1.0,-0.0014,100,0,0,0,4,100,0,0,0,4,24,0.02,181,202
+V0,initial_element_density,0.1,0,0,717,0.9962,0.9957,1.0,-0.0043,100,0,0,0,5,100,0,0,0,4,1,0.02,86,136
+V0,initial_element_density,0.1,1,1,643,0.9962,0.9971,1.0,-0.0029,100,0,0,0,4,100,0,0,0,4,3,0.025,73,122
+V0,initial_element_density,0.15,0,0,666,1.0,1.0,1.0,0.0,100,0,0,0,4,100,0,0,0,5,1,0.025,36,112
+V0,initial_element_density,0.15,1,1,781,0.9975,0.9971,1.0,-0.0029,100,0,0,0,4,100,0,0,0,4,3,0.02,89,123
+V0,initial_element_density,0.2,0,0,521,0.9988,0.9986,1.0,-0.0014,100,0,0,0,4,100,0,0,0,4,1,0.035,1,80
+V0,initial_element_density,0.2,1,1,445,0.9862,0.9843,0.995,-0.0107,99,0,1,0,4,100,0,0,0,4,1,0.02,49,99

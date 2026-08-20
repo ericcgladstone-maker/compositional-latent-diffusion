@@ -1,0 +1,4 @@
+mode,final_manifest_share,obs_gap_peak_mean,obs_gap_tpeak_mean,obs_gap_area_mean
+elements_only,0.6528,0.6035,98.8,81.7
+whole_package,0.9918,0.6035,98.8,24.6
+both,0.9937,0.6035,98.8,17.9

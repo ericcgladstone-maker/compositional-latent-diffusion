@@ -1,0 +1,9 @@
+topology,n_agents,regime,capacity,change_agent_fraction,final,carrier_per_bt,final_sd,n_big_things,n
+small_world,100,permissive,6,0.0,0.6673,0.3327,0.0901,2,200
+small_world,100,permissive,6,0.2,0.7147,0.2853,0.083,2,200
+small_world,100,constrained,4,0.0,0.1213,0.8647,0.0652,2,200
+small_world,100,constrained,4,0.2,0.1988,0.7872,0.0757,2,200
+small_world,500,permissive,6,0.0,0.6661,0.3339,0.0686,2,200
+small_world,500,permissive,6,0.2,0.678,0.322,0.0651,2,200
+small_world,500,constrained,4,0.0,0.1145,0.8714,0.0519,2,200
+small_world,500,constrained,4,0.2,0.1839,0.8024,0.0641,2,200

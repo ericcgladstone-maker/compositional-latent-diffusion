@@ -1,0 +1,10 @@
+{
+  "created": "2026-06-23 22:03:43",
+  "purpose": "overnight confirmation: threshold-slack mechanism test + scale confirmation",
+  "operating_point": "config_for_phase('V1' / 'V1-W')",
+  "reps": 50,
+  "scale_sizes": [
+    500,
+    1000
+  ]
+}

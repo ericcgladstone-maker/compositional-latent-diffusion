@@ -1,0 +1,941 @@
+{
+  "created": "2026-06-13 14:34:35",
+  "phases": [
+    "V0",
+    "V1",
+    "V1-W",
+    "V2-slotcost",
+    "V2-compression",
+    "V2-stabilization",
+    "V2-enhanced",
+    "V2-stab-enh",
+    "V2-tiestrength",
+    "V2-internal-coupling",
+    "V2-neighbor-coupling",
+    "change-agent"
+  ],
+  "replications": 30,
+  "base_seed": 0,
+  "with_invariants": true,
+  "registry": {
+    "params": [
+      {
+        "name": "n_element_types",
+        "default": 8,
+        "kind": "int",
+        "group": "structure",
+        "doc": "Distinct element types in circulation. Must exceed the union of all big-thing requirements so competition is real.",
+        "low": 6,
+        "high": 16,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "n_big_things",
+        "default": 2,
+        "kind": "int",
+        "group": "structure",
+        "doc": "Number of big things (alpha, beta, ...). 2 creates competition.",
+        "low": 1,
+        "high": 4,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "requirement_size",
+        "default": 4,
+        "kind": "int",
+        "group": "structure",
+        "doc": "Size of each big thing's defining element set R.",
+        "low": 3,
+        "high": 6,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "sufficiency_k",
+        "default": 3,
+        "kind": "int",
+        "group": "structure",
+        "doc": "Any k-of-R held elements suffice to become a latent adopter (set-sufficiency encoding). k==R means strict all-of.",
+        "low": 2,
+        "high": 6,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "element_overlap",
+        "default": 1,
+        "kind": "int",
+        "group": "structure",
+        "doc": "How many element types two adjacent big things share. >0 makes big things compete for the same elements.",
+        "low": 0,
+        "high": 3,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "requirement_encoding",
+        "default": "set_sufficiency",
+        "kind": "choice",
+        "group": "structure",
+        "doc": "How elements compose into a big thing. set_sufficiency favored; ordering is an equivalent combinatoric encoding; additive disfavored.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "set_sufficiency",
+          "ordering",
+          "additive"
+        ]
+      },
+      {
+        "name": "transmissibility_mode",
+        "default": "elements_only",
+        "kind": "choice",
+        "group": "transmissibility",
+        "doc": "THE WEDGE. elements_only = our model (big things never transmit whole). whole_package = recovers SIR / complex contagion in-model. both = whole only between compression-equipped agents.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "elements_only",
+          "whole_package",
+          "both"
+        ]
+      },
+      {
+        "name": "n_agents",
+        "default": 100,
+        "kind": "int",
+        "group": "network",
+        "doc": "Population size. 100 keeps iteration fast as mechanisms stack.",
+        "low": 50,
+        "high": 1000,
+        "step": 50,
+        "choices": null
+      },
+      {
+        "name": "topology",
+        "default": "small_world",
+        "kind": "choice",
+        "group": "network",
+        "doc": "Network structure. small_world is the lead; uniform_mixing only for SIR-family legibility.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "small_world",
+          "ring_lattice",
+          "random",
+          "uniform_mixing"
+        ]
+      },
+      {
+        "name": "mean_degree",
+        "default": 6,
+        "kind": "int",
+        "group": "network",
+        "doc": "Target average number of ties per agent (density driver).",
+        "low": 2,
+        "high": 20,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "rewire_prob",
+        "default": 0.1,
+        "kind": "float",
+        "group": "network",
+        "doc": "Watts-Strogatz rewiring probability (small_world only).",
+        "low": 0.0,
+        "high": 1.0,
+        "step": 0.01,
+        "choices": null
+      },
+      {
+        "name": "capacity",
+        "default": 6,
+        "kind": "int",
+        "group": "capacity",
+        "doc": "Max element-slots an agent can hold. The threshold/capacity ratio is the competition engine.",
+        "low": 4,
+        "high": 12,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "eviction_rule",
+        "default": "value_weighted",
+        "kind": "choice",
+        "group": "capacity",
+        "doc": "Who gets dropped when capacity binds. value_weighted (keep elements feeding a near-complete big thing) is the substantively richest.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "random",
+          "recency",
+          "value_weighted"
+        ]
+      },
+      {
+        "name": "transmission_prob",
+        "default": 0.1,
+        "kind": "float",
+        "group": "dynamics",
+        "doc": "Probability a held element transmits on a given contact. Low values lengthen the latent build phase where the interesting inertia lives.",
+        "low": 0.02,
+        "high": 0.5,
+        "step": 0.01,
+        "choices": null
+      },
+      {
+        "name": "loss_rate",
+        "default": 0.0,
+        "kind": "float",
+        "group": "dynamics",
+        "doc": "Spontaneous per-tick element forgetting. Off by default so V1 dynamics are not confounded.",
+        "low": 0.0,
+        "high": 0.05,
+        "step": 0.005,
+        "choices": null
+      },
+      {
+        "name": "contacts_per_tick",
+        "default": 1,
+        "kind": "int",
+        "group": "dynamics",
+        "doc": "Contacts each active agent makes per tick. Sets the clock.",
+        "low": 1,
+        "high": 5,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "scheduling",
+        "default": "asynchronous",
+        "kind": "choice",
+        "group": "dynamics",
+        "doc": "asynchronous avoids lockstep-flip artifacts; synchronous updates all agents at once.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "asynchronous",
+          "synchronous"
+        ]
+      },
+      {
+        "name": "run_length",
+        "default": 1000,
+        "kind": "int",
+        "group": "dynamics",
+        "doc": "Max ticks. Runs also stop early on quiescence.",
+        "low": 200,
+        "high": 5000,
+        "step": 100,
+        "choices": null
+      },
+      {
+        "name": "quiescence_window",
+        "default": 50,
+        "kind": "int",
+        "group": "dynamics",
+        "doc": "Stop early if no element movement for this many ticks (0 disables).",
+        "low": 0,
+        "high": 500,
+        "step": 10,
+        "choices": null
+      },
+      {
+        "name": "differential_slot_cost",
+        "default": false,
+        "kind": "bool",
+        "group": "mechanisms",
+        "doc": "Big ideas occupy 2 slots, elements 1.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "compression",
+        "default": false,
+        "kind": "bool",
+        "group": "mechanisms",
+        "doc": "On activation, constituent elements collapse into a chunk at smaller footprint; frees capacity but can no longer be transmitted as pieces.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "stabilization",
+        "default": false,
+        "kind": "bool",
+        "group": "mechanisms",
+        "doc": "On activation, constituent elements become harder to dislodge.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "enhanced_transmission",
+        "default": false,
+        "kind": "bool",
+        "group": "mechanisms",
+        "doc": "On activation, constituent elements become more transmissible to neighbors (the invisible becomes visible).",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "stabilization_boost",
+        "default": 0.5,
+        "kind": "float",
+        "group": "mechanisms",
+        "doc": "Multiplier reducing loss/eviction pressure on stabilized elements (0 = immovable, 1 = no effect).",
+        "low": 0.0,
+        "high": 1.0,
+        "step": 0.05,
+        "choices": null
+      },
+      {
+        "name": "enhanced_factor",
+        "default": 2.0,
+        "kind": "float",
+        "group": "mechanisms",
+        "doc": "Multiplier on transmission_prob for elements of an active big thing.",
+        "low": 1.0,
+        "high": 5.0,
+        "step": 0.1,
+        "choices": null
+      },
+      {
+        "name": "tie_strength_channels",
+        "default": false,
+        "kind": "bool",
+        "group": "mechanisms",
+        "doc": "90/10 weak/strong tie structure; per-interaction transmission scales with tie strength.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "strong_tie_fraction",
+        "default": 0.1,
+        "kind": "float",
+        "group": "mechanisms",
+        "doc": "Fraction of an agent's ties that are strong (tie_strength_channels).",
+        "low": 0.0,
+        "high": 0.5,
+        "step": 0.01,
+        "choices": null
+      },
+      {
+        "name": "internal_coupling",
+        "default": false,
+        "kind": "bool",
+        "group": "mechanisms",
+        "doc": "EXTENSION. Signed coupling: a held big thing biases adoption / element-retention of OTHER big things (off-diagonal).",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "neighbor_coupling",
+        "default": false,
+        "kind": "bool",
+        "group": "mechanisms",
+        "doc": "EXTENSION. Same signed structure sourced externally: a neighbor's big thing biases your adoption of others. Subsumes complex contagion as the positive same-target cell.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "coupling_level",
+        "default": "big_thing",
+        "kind": "choice",
+        "group": "mechanisms",
+        "doc": "Does coupling act at the big-thing level or per element.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "big_thing",
+          "element"
+        ]
+      },
+      {
+        "name": "coupling_strength",
+        "default": 0.0,
+        "kind": "float",
+        "group": "mechanisms",
+        "doc": "Signed coupling multiplier. Negative = antagonism, positive = facilitation. 0 = off even if a coupling switch is on.",
+        "low": -1.0,
+        "high": 1.0,
+        "step": 0.05,
+        "choices": null
+      },
+      {
+        "name": "seeding_scheme",
+        "default": "uniform_random",
+        "kind": "choice",
+        "group": "seeding",
+        "doc": "Where elements start. clustered manufactures at-risk / resistant groups on purpose.",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "uniform_random",
+          "clustered",
+          "single_source"
+        ]
+      },
+      {
+        "name": "initial_element_density",
+        "default": 0.15,
+        "kind": "float",
+        "group": "seeding",
+        "doc": "Fraction of (agent, element-type) cells seeded at t=0.",
+        "low": 0.0,
+        "high": 0.6,
+        "step": 0.01,
+        "choices": null
+      },
+      {
+        "name": "change_agent_scenario",
+        "default": false,
+        "kind": "bool",
+        "group": "seeding",
+        "doc": "Inject a fully-equipped, manifest minority into an unprepared population (produces the failed-diffusion signature).",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "change_agent_fraction",
+        "default": 0.1,
+        "kind": "float",
+        "group": "seeding",
+        "doc": "Share of population seeded fully equipped and manifest.",
+        "low": 0.05,
+        "high": 0.2,
+        "step": 0.01,
+        "choices": null
+      },
+      {
+        "name": "change_agent_clustered",
+        "default": false,
+        "kind": "bool",
+        "group": "seeding",
+        "doc": "Place change agents in a cluster (vs dispersed).",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": null
+      },
+      {
+        "name": "change_agent_evangelism",
+        "default": 1.0,
+        "kind": "float",
+        "group": "seeding",
+        "doc": "Multiplier on change agents' transmission probability (1.0 = baseline, like everyone else).",
+        "low": 1.0,
+        "high": 5.0,
+        "step": 0.1,
+        "choices": null
+      },
+      {
+        "name": "trigger_type",
+        "default": "exogenous",
+        "kind": "choice",
+        "group": "trigger",
+        "doc": "exogenous = global shock at a set time (mass-media exemplar). endogenous = fires when enough neighbors are latent/manifest (focal-point / emergent-need).",
+        "low": null,
+        "high": null,
+        "step": null,
+        "choices": [
+          "exogenous",
+          "endogenous"
+        ]
+      },
+      {
+        "name": "trigger_time",
+        "default": 100,
+        "kind": "int",
+        "group": "trigger",
+        "doc": "Tick at which the exogenous trigger fires (and recurs every trigger_time ticks).",
+        "low": 1,
+        "high": 2000,
+        "step": 10,
+        "choices": null
+      },
+      {
+        "name": "endogenous_trigger_threshold",
+        "default": 0.5,
+        "kind": "float",
+        "group": "trigger",
+        "doc": "Fraction of neighbors latent/manifest required to fire manifestation (endogenous only).",
+        "low": 0.1,
+        "high": 0.9,
+        "step": 0.05,
+        "choices": null
+      },
+      {
+        "name": "trigger_reach",
+        "default": 1.0,
+        "kind": "float",
+        "group": "trigger",
+        "doc": "Fraction of latent adopters actually flipped when the trigger fires.",
+        "low": 0.1,
+        "high": 1.0,
+        "step": 0.05,
+        "choices": null
+      },
+      {
+        "name": "seed",
+        "default": 0,
+        "kind": "int",
+        "group": "run",
+        "doc": "Random seed. Fixed seed => fully reproducible run.",
+        "low": 0,
+        "high": 1000000,
+        "step": 1,
+        "choices": null
+      },
+      {
+        "name": "replications",
+        "default": 30,
+        "kind": "int",
+        "group": "run",
+        "doc": "Replications per parameter cell in a sweep (stochastic averaging). Ignored by single live runs.",
+        "low": 1,
+        "high": 100,
+        "step": 1,
+        "choices": null
+      }
+    ],
+    "group_order": [
+      "structure",
+      "transmissibility",
+      "network",
+      "capacity",
+      "dynamics",
+      "mechanisms",
+      "seeding",
+      "trigger",
+      "run"
+    ],
+    "group_labels": {
+      "structure": "Structure",
+      "transmissibility": "Transmissibility (the wedge)",
+      "network": "Network & population",
+      "capacity": "Capacity & competition",
+      "dynamics": "Transmission dynamics",
+      "mechanisms": "V2 mechanisms",
+      "seeding": "Seeding",
+      "trigger": "Trigger",
+      "run": "Run control"
+    }
+  },
+  "phase_defs": [
+    {
+      "id": "V0",
+      "title": "V0 \u2014 unrestricted baseline",
+      "desc": "Elements diffuse, big things activate on composition, unlimited capacity. Should saturate. Confirms the machinery.",
+      "overrides": {
+        "capacity": 64,
+        "trigger_type": "exogenous",
+        "trigger_time": 1,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "initial_element_density",
+        "values": [
+          0.05,
+          0.1,
+          0.15,
+          0.2
+        ]
+      },
+      "predict": "Everyone acquires everything; all big things activate."
+    },
+    {
+      "id": "V1",
+      "title": "V1 \u2014 capacity & competition",
+      "desc": "Adds activation threshold + capacity cap. The core result: pockets, at-risk groups, resistant groups, sudden flips.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "capacity",
+        "values": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ]
+      },
+      "predict": "Hilly terrain; no universal saturation."
+    },
+    {
+      "id": "V1-W",
+      "title": "V1-W \u2014 the transmissibility wedge",
+      "desc": "V1 held fixed; sweep the transmissibility mode. Establishes the wedge in isolation before any elaboration.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "transmissibility_mode",
+        "values": [
+          "elements_only",
+          "whole_package",
+          "both"
+        ]
+      },
+      "predict": "whole_package recovers SIR/complex contagion; elements_only gives latent adoption (long inertia then sudden manifestation)."
+    },
+    {
+      "id": "V2-slotcost",
+      "title": "V2 \u2014 differential slot costs",
+      "desc": "Big ideas (compressed chunks) cost 2 slots.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": true,
+        "compression": true,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "capacity",
+        "values": [
+          4,
+          6,
+          8,
+          10
+        ]
+      },
+      "predict": "Tighter capacity pressure than V1."
+    },
+    {
+      "id": "V2-compression",
+      "title": "V2 \u2014 compression",
+      "desc": "On activation, elements collapse into a chunk that frees capacity but can no longer transmit as pieces.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": true,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "transmission_prob",
+        "values": [
+          0.05,
+          0.1,
+          0.2,
+          0.3
+        ]
+      },
+      "predict": "Frees capacity; reduces downstream transmissibility."
+    },
+    {
+      "id": "V2-stabilization",
+      "title": "V2 \u2014 stabilization",
+      "desc": "On activation, constituent elements become harder to dislodge.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.01,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": true,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only",
+        "eviction_rule": "random"
+      },
+      "focal": {
+        "param": "stabilization_boost",
+        "values": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ]
+      },
+      "predict": "Entrenched adoption; reservoirs persist."
+    },
+    {
+      "id": "V2-enhanced",
+      "title": "V2 \u2014 enhanced transmission",
+      "desc": "On activation, constituent elements become more transmissible.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": true,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "enhanced_factor",
+        "values": [
+          1.0,
+          1.5,
+          2.0,
+          3.0
+        ]
+      },
+      "predict": "Faster secondary spread once a pocket flips."
+    },
+    {
+      "id": "V2-stab-enh",
+      "title": "V2+ \u2014 stabilization \u00d7 enhanced (interaction)",
+      "desc": "The explicit interaction condition.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.01,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": true,
+        "enhanced_transmission": true,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "enhanced_factor",
+        "values": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "predict": "Compounding or offsetting of the two mechanisms."
+    },
+    {
+      "id": "V2-tiestrength",
+      "title": "V2 \u2014 tie-strength channels (90/10)",
+      "desc": "Most element bits arrive via many weak ties; few via strong ties.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": true,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "strong_tie_fraction",
+        "values": [
+          0.0,
+          0.05,
+          0.1,
+          0.2,
+          0.3
+        ]
+      },
+      "predict": "Latent preparation as a predominantly weak-tie phenomenon."
+    },
+    {
+      "id": "V2-internal-coupling",
+      "title": "V2 \u2014 internal coupling (extension)",
+      "desc": "Signed: a held big thing biases adoption of other big things.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": true,
+        "neighbor_coupling": false,
+        "coupling_strength": -0.5,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "coupling_strength",
+        "values": [
+          -1.0,
+          -0.5,
+          0.0,
+          0.5,
+          1.0
+        ]
+      },
+      "predict": "Correlated bundles instead of generic crowding."
+    },
+    {
+      "id": "V2-neighbor-coupling",
+      "title": "V2 \u2014 neighbor coupling (extension)",
+      "desc": "Signed: a neighbor's big thing biases your adoption of others. Subsumes complex contagion as the same-target cell.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": true,
+        "coupling_strength": -0.5,
+        "change_agent_scenario": false,
+        "transmissibility_mode": "elements_only"
+      },
+      "focal": {
+        "param": "coupling_strength",
+        "values": [
+          -1.0,
+          -0.5,
+          0.0,
+          0.5,
+          1.0
+        ]
+      },
+      "predict": "Social-pressure suppression / facilitation across big things."
+    },
+    {
+      "id": "change-agent",
+      "title": "Scenario \u2014 change-agent seeding",
+      "desc": "Equipped, manifest minority injected into an unprepared population. Produces the failed-diffusion signature.",
+      "overrides": {
+        "capacity": 6,
+        "trigger_type": "exogenous",
+        "trigger_time": 100,
+        "trigger_reach": 1.0,
+        "loss_rate": 0.0,
+        "differential_slot_cost": false,
+        "compression": false,
+        "stabilization": false,
+        "enhanced_transmission": false,
+        "tie_strength_channels": false,
+        "internal_coupling": false,
+        "neighbor_coupling": false,
+        "coupling_strength": 0.0,
+        "change_agent_scenario": true,
+        "transmissibility_mode": "elements_only",
+        "initial_element_density": 0.05
+      },
+      "focal": {
+        "param": "change_agent_fraction",
+        "values": [
+          0.05,
+          0.1,
+          0.15,
+          0.2
+        ]
+      },
+      "predict": "Fails to spread under elements_only despite full equipment."
+    }
+  ]
+}

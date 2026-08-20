@@ -1,0 +1,9 @@
+topology,n_agents,regime,capacity,change_agent_fraction,final,carrier_per_bt,final_sd,n_big_things,n
+ring_lattice,100,permissive,6,0.0,0.704,0.296,0.0923,2,200
+ring_lattice,100,permissive,6,0.2,0.7286,0.2714,0.0879,2,200
+ring_lattice,100,constrained,4,0.0,0.1541,0.8309,0.0761,2,200
+ring_lattice,100,constrained,4,0.2,0.247,0.7373,0.0724,2,200
+ring_lattice,500,permissive,6,0.0,0.7109,0.2891,0.069,2,200
+ring_lattice,500,permissive,6,0.2,0.7227,0.2773,0.0579,2,200
+ring_lattice,500,constrained,4,0.0,0.1337,0.8522,0.0514,2,200
+ring_lattice,500,constrained,4,0.2,0.239,0.7455,0.0549,2,200

@@ -1,0 +1,7 @@
+n_agents,mode,n,final_manifest_share_mean,final_manifest_share_sd,final_obs_gap_mean,final_obs_gap_sd
+500,elements_only,4,0.6623,0.0685,0.0865,0.0682
+500,whole_package,4,0.9942,0.0011,-0.1697,0.0049
+500,both,4,0.995,0.0025,-0.1676,0.005
+1000,elements_only,4,0.6723,0.067,0.0757,0.0668
+1000,whole_package,4,0.9948,0.0007,-0.1677,0.0037
+1000,both,4,0.9964,0.0009,-0.1661,0.003

@@ -1,0 +1,14 @@
+kind,value,final,lapse_rate,scalar_final
+off_diagonal,-1.0,0.5148,0.081,
+off_diagonal,-0.5,0.5993,0.178,
+off_diagonal,0.0,0.6528,0.244,
+off_diagonal,0.5,0.6257,0.288,
+off_diagonal,1.0,0.7182,0.296,
+diagonal,0.0,0.6528,0.244,
+diagonal,0.25,0.6688,0.26,
+diagonal,0.5,0.675,0.266,
+diagonal,1.0,0.6692,0.287,
+validate_scalar_equiv,-1.0,0.602,,0.8667
+validate_scalar_equiv,-0.5,0.6263,,0.8467
+validate_scalar_equiv,0.5,0.6602,,0.563
+validate_scalar_equiv,1.0,0.7488,,0.5543

@@ -1,0 +1,42 @@
+{
+  "created": "2026-06-23 14:46:50",
+  "purpose": "exploratory wedge follow-up (trajectories, observability gap, robustness/validity map)",
+  "operating_point": "config_for_phase('V1-W')",
+  "reps": 5,
+  "base_seed": 0,
+  "validation_endpoints": {
+    "elements_only": 0.71,
+    "whole_package": 0.989,
+    "both": 0.992
+  },
+  "knobs": {
+    "requirement_size": [
+      "R=1 (k=1)",
+      "R=2 (k=2)",
+      "R=3 (k=2)",
+      "R=4 (k=3)",
+      "R=5 (k=4)",
+      "R=6 (k=4)"
+    ],
+    "topology": [
+      "small_world",
+      "random",
+      "ring_lattice",
+      "uniform_mixing"
+    ],
+    "mean_degree": [
+      "4",
+      "6",
+      "10"
+    ],
+    "n_agents": [
+      "100",
+      "300"
+    ],
+    "transmission_prob": [
+      "0.05",
+      "0.1",
+      "0.2"
+    ]
+  }
+}

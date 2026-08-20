@@ -1,0 +1,9 @@
+arm,density,regime,capacity,change_agent_fraction,final,partial_holder,full_not_manifest,final_sd,n
+complex-contagion-0.3,0.0,permissive,6,0.0,0.5,0.5,0.0,0.0,200
+complex-contagion-0.3,0.0,permissive,6,0.2,0.5,0.5,0.0,0.0,200
+complex-contagion-0.3,0.0,constrained,4,0.0,0.5,0.5,0.0,0.0,200
+complex-contagion-0.3,0.0,constrained,4,0.2,0.5,0.5,0.0,0.0,200
+complex-contagion-0.3,0.05,permissive,6,0.0,0.9984,0.0016,0.0,0.0033,200
+complex-contagion-0.3,0.05,permissive,6,0.2,0.9986,0.0015,0.0,0.0031,200
+complex-contagion-0.3,0.05,constrained,4,0.0,0.4989,0.4889,0.0,0.0024,200
+complex-contagion-0.3,0.05,constrained,4,0.2,0.4995,0.493,0.0,0.0016,200

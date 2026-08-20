@@ -1,0 +1,9 @@
+rule,capacity,loss_rate,flow,transmission_prob,adoption,carrier_per_bt,evictions_per_agent,completions_per_agent,mean_duplicates,mean_distinct_types,adoption_sd,n
+count-calibrated,6,0.0,low,0.05,0.0595,0.8822,44.7869,44.2779,2.4813,3.5187,0.0283,200
+count-calibrated,6,0.0,high,0.2,0.0871,0.8312,194.8545,98.9078,2.8213,3.1787,0.0655,200
+count-calibrated,6,0.01,low,0.05,0.017,0.7827,8.2986,23.4602,1.5389,2.3877,0.0127,200
+count-calibrated,6,0.01,high,0.2,0.0645,0.8288,139.1473,91.1926,2.5887,3.0191,0.0433,200
+count-calibrated,5,0.0,low,0.05,0.0,0.9058,45.8038,0.0,1.9103,3.0897,0.0,200
+count-calibrated,5,0.0,high,0.2,0.0,0.8761,195.8986,0.0,2.248,2.752,0.0,200
+count-calibrated,5,0.01,low,0.05,0.0,0.7724,12.6392,0.0,1.2837,2.2244,0.0,200
+count-calibrated,5,0.01,high,0.2,0.0,0.8506,149.3597,0.0,2.1277,2.5558,0.0,200

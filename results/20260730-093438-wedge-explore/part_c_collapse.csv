@@ -1,0 +1,5 @@
+barriers_present,key,requirement_size,trigger_time,capacity,n_element_types,elements_only,whole_package,wedge_gap
+assembly + activation + capacity,both,4,100,6,8,0.6483,0.9942,0.3459
+"capacity only (assembly, activation removed)",capacity,1,1,6,8,0.7505,0.9946,0.2441
+none: + unbounded capacity,none-cap64,1,1,64,8,0.9967,1.0,0.0033
+none: + no noise element types,none-ntypes2,1,1,6,2,0.9995,1.0,0.0005

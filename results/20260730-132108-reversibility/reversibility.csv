@@ -1,0 +1,5 @@
+coupling_strength,label,reversible,reversible_sd,irreversible,irreversible_sd,n
+-0.5,Mild antagonism (-0.5),0.8579,0.0524,0.9271,0.0405,200
+0.0,No coupling (0),0.6482,0.0804,0.9185,0.0395,200
+1.0,Facilitation (+1),0.45,0.1321,0.8901,0.0562,200
+-1.0,Hard antagonism (-1),0.6017,0.033,0.6017,0.033,200

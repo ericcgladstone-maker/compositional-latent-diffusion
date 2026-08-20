@@ -1,0 +1,9 @@
+topology,n_agents,regime,capacity,change_agent_fraction,final,carrier_per_bt,final_sd,n_big_things,n
+random,100,permissive,6,0.0,0.6493,0.3482,0.0855,2,200
+random,100,permissive,6,0.2,0.6595,0.3382,0.0856,2,200
+random,100,constrained,4,0.0,0.1133,0.8684,0.0667,2,200
+random,100,constrained,4,0.2,0.1493,0.8338,0.0655,2,200
+random,500,permissive,6,0.0,0.6469,0.3509,0.0733,2,200
+random,500,permissive,6,0.2,0.6645,0.3339,0.0706,2,200
+random,500,constrained,4,0.0,0.1103,0.8726,0.0585,2,200
+random,500,constrained,4,0.2,0.1222,0.8623,0.0589,2,200

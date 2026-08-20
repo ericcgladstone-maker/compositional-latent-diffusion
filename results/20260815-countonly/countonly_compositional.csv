@@ -1,0 +1,9 @@
+rule,capacity,loss_rate,flow,transmission_prob,adoption,carrier_per_bt,evictions_per_agent,completions_per_agent,mean_duplicates,mean_distinct_types,adoption_sd,n
+compositional,6,0.0,low,0.05,0.1888,0.7528,44.7869,157.5676,2.4813,3.5187,0.0533,200
+compositional,6,0.0,high,0.2,0.1313,0.787,194.8545,258.1429,2.8213,3.1787,0.0667,200
+compositional,6,0.01,low,0.05,0.0536,0.7461,8.2986,77.305,1.5389,2.3877,0.0272,200
+compositional,6,0.01,high,0.2,0.1127,0.7806,139.1473,220.6761,2.5887,3.0191,0.0599,200
+compositional,5,0.0,low,0.05,0.1176,0.7882,45.8038,125.3707,1.9103,3.0897,0.0438,200
+compositional,5,0.0,high,0.2,0.0854,0.7907,195.8986,174.7662,2.248,2.752,0.0581,200
+compositional,5,0.01,low,0.05,0.0386,0.7339,12.6392,61.1048,1.2837,2.2244,0.0254,200
+compositional,5,0.01,high,0.2,0.0564,0.7943,149.3597,139.9257,2.1277,2.5558,0.0493,200
