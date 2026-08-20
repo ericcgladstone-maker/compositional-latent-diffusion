@@ -30,7 +30,10 @@ To re-run the model instead, see "Reproducing a result from scratch" below.
 | `token_model.py` | Self-contained token-memory model for the three-readiness-rule experiment. |
 | `explore_*.py` | One script per reported experiment. Each writes to a timestamped directory under `results/`. |
 | `verify_*.py` | Verification. See below. |
-| `make_manuscript_figures.py` | Regenerates every figure in the article and its data audit. |
+| `make_manuscript_figures.py` | Original figure generator. Regenerates every figure in the article and its data audit. |
+| `make_revised_figures.py` | Revised Figures 2, 4 and 5. Writes vector PDF and 600 dpi PNG to `results/figures-revised/`. Reads stored output only; recomputes nothing. |
+| `emit_final_figures.py` | Emits the final main-text figure set (Figures 2-5) to `results/figures-final/` at publication spec. |
+| `tools/` | Document formatting and rendering scripts used to typeset the submission files. Like `docx_tooling/`, they operate on documents not distributed here. |
 | `results/` | Per-replication output for every reported cell. See `results/README.md` for which sweeps are canonical. |
 | `tests/` | 25 structural tests. |
 | `viewer/`, `abm/server.py` | Optional live viewer. Not needed for replication. |
@@ -62,13 +65,16 @@ Main-text figures and the code and data behind them.
 | Article element | Produced by | Data |
 |---|---|---|
 | Figure 1, conceptual architecture | `make_manuscript_figures.py::figure1` | none, schematic |
-| Figure 2, propagation before manifestation | `make_manuscript_figures.py::figure2` | `results/20260731-endogenous/`, `results/20260816-carrier-diagnostics-endo/` |
+| Figure 2, propagation before manifestation | `make_revised_figures.py::figure2` | `results/20260731-endogenous/`, `results/20260816-carrier-diagnostics-endo/` |
 | Figure 3, retention governs conversion | `make_manuscript_figures.py::figure3` | `results/20260730-102229-comments/` |
-| Figure 4, content identity vs source diversity | `make_manuscript_figures.py::figure4` | `results/20260816-sourcenonredundant/` |
-| Figure 5, retention and the return to transmission | `make_manuscript_figures.py::figure5` | `results/20260730-102229-comments/`, `results/20260730-093338-full/` |
+
+Figure 3's white markers are labelled "interpolated capacity at mean object-specific adoption = 0.50". The plotted quantity is `final_manifest_share`, which is the mean across objects of the share of agents manifesting that object, **not** the share of agents manifesting at least one object. Those are different quantities: at the focal specification they are 0.6482 and 0.9217 respectively. See "Notes for anyone checking the model" below.
+| Figure 4, content identity vs source diversity | `make_revised_figures.py::figure4` | `results/20260816-sourcenonredundant/` |
+| Figure 5, retention and the return to transmission | `make_revised_figures.py::figure5` | `results/20260730-102229-comments/`, `results/20260730-093338-full/` |
 | Figure S1, carrier threshold sensitivity | `make_manuscript_figures.py::figureS_carriers` | both `carrier-diagnostics` directories |
 | Figure S2, manifest advocates | `make_manuscript_figures.py::figureS_advocates` | `results/20260814-changeagent/` |
 | Table 1 | conceptual, no data | none |
+| Table 2, empirical diagnostics | conceptual, no data | none |
 
 Main-text results and the experiment that produced them.
 
@@ -113,6 +119,17 @@ Replication counts are set by `ABM_REPS`. **The engine default is 30 and no repo
 - Agent holdings in the main engine are a set of element types, so an agent cannot hold two tokens of the same type. Only `token_model.py` permits duplicates, which is what makes the equal-count comparator a genuine departure.
 - Updating is asynchronous: agents act in a fresh random order each tick, not in lockstep.
 - Runs stop at `run_length` or at quiescence, whichever comes first, at a mean of about tick 366 in the focal specification. Measuring at a fixed final tick instead lands at an arbitrary point of the recurring trigger cycle and will not reproduce the reported endpoints.
+- `manifest_share` is `sum(len(a.manifest) for a in agents) / (n * n_objects)`: the share of
+  (agent, object) cells in the manifest state, equivalently the mean across objects of
+  per-object adoption. `final_manifest_share`, `peak_manifest_share` and the token model's
+  `adoption` are the same construct. The separate `manifest_any` in
+  `explore_carrier_diagnostics.py` is the union -- agents manifesting at least one object --
+  and is larger.
+- Sender state in `_record_transfer` is classified with `any(bid in sender.manifest for bid
+  in owners)`: a sender counts as manifest when it manifests **at least one** object served
+  by the transferred component. This matters only for the single component the two objects
+  share. The counters run after a successful transfer, draw no random numbers and change no
+  state.
 - The default eviction rule is uniformly random. A value-weighted rule that protected near-complete configurations would build the compositional result into the eviction mechanism rather than deriving it.
 
 ---

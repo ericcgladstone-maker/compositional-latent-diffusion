@@ -258,7 +258,11 @@ def figure3():
                        edgecolor="black", lw=1.1, zorder=3)
             ax.text(xi, yi + .30, f"C = {halves[k]:.1f}", ha="center", fontsize=6.5,
                     color="white", zorder=3)
-    ax.text(.02, -.30, "white markers: interpolated half-adoption capacity",
+    # "half-adoption" was ambiguous once the metric was adjudicated: the plotted
+    # quantity is final_manifest_share, i.e. MEAN OBJECT-SPECIFIC adoption, not
+    # the share of unique agents manifesting at least one object.
+    ax.text(.02, -.30, "white markers: interpolated capacity at mean "
+            "object-specific adoption = 0.50",
             transform=ax.transAxes, fontsize=6.2, color=MUTE)
     fig.colorbar(im, ax=ax, fraction=.046, pad=.03)
 
