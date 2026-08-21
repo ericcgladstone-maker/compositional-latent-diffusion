@@ -438,7 +438,11 @@ def figureS_advocates():
     b = rows("20260814-changeagent", "b_evangelism.csv")
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.6))
     styles = {"permissive": ("#1b3a6b", "higher capacity (C=6)"),
-              "constrained": ("#c1663b", "lower capacity (C=5)")}
+              # The advocate experiments use REGIMES = {permissive: 6,
+              # constrained: 4} in explore_changeagent{,_robust}.py, and the
+              # stored output contains capacities 4 and 6 only. The label read
+              # C=5, which was wrong. Label only -- no data path changed.
+              "constrained": ("#c1663b", "lower capacity (C=4)")}
     ax = axes[0]
     for reg, (col, lab) in styles.items():
         pts = sorted((float(r["change_agent_fraction"]), float(r["final"]),
@@ -471,7 +475,7 @@ def figureS_advocates():
 
     audit("S-advocates", "A", "results/20260814-changeagent/a_fraction.csv",
           "change_agent_fraction", "final; carrier_per_bt",
-          "regime in {permissive C=6, constrained C=5}", "200", "raw means",
+          "regime in {permissive C=6, constrained C=4}", "200", "raw means",
           "final_sd available, not plotted")
     audit("S-advocates", "B", "results/20260814-changeagent/b_evangelism.csv",
           "change_agent_evangelism", "final", "regime", "200", "raw means",

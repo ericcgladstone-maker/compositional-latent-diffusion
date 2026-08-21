@@ -3,3 +3,6 @@ __pycache__/
 .venv/
 .pytest_cache/
 .DS_Store
+
+# Document scripts that embed reviewer-only access tokens are not distributed.
+tools/fill_deposit_refs.py
