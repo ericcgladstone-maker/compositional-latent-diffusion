@@ -4,7 +4,9 @@
 
 Model engine, experiment scripts, analysis and figure code, per-replication output for every reported cell, and an environment specification.
 
-**Author and citation details are withheld while the article is under blind review.**
+Eric Gladstone and Matthew E. Brashears. Working manuscript, in preparation for *Sociological Science*: https://graystoneindustries.co/research/#diffusion-before-adoption-a-model-of-compositional-latent-diffusion
+
+This release (`v1.3.0-round4`) matches the Round 4 working manuscript of October 2026. The August 2026 submission version is tagged `v1.2.0-submission` and archived on OSF at https://doi.org/10.17605/OSF.IO/GFJ45.
 
 ---
 
@@ -32,7 +34,8 @@ To re-run the model instead, see "Reproducing a result from scratch" below.
 | `verify_*.py` | Verification. See below. |
 | `make_manuscript_figures.py` | Original figure generator. Regenerates every figure in the article and its data audit. |
 | `make_revised_figures.py` | Revised Figures 2, 4 and 5. Writes vector PDF and 600 dpi PNG to `results/figures-revised/`. Reads stored output only; recomputes nothing. |
-| `emit_final_figures.py` | Emits the final main-text figure set (Figures 2-5) to `results/figures-final/` at publication spec. |
+| `emit_final_figures.py` | Emits the August 2026 main-text figure set (Figures 2-5) to `results/figures-final/` at publication spec. |
+| `make_round3_figures.py` | The current main-text figures (Figures 1-5). Writes vector PDF and 600 dpi PNG to `results/figures-round3/`. Reads stored output only; recomputes nothing. |
 | `tools/` | Document formatting and rendering scripts used to typeset the submission files. Like `docx_tooling/`, they operate on documents not distributed here. |
 | `results/` | Per-replication output for every reported cell. See `results/README.md` for which sweeps are canonical. |
 | `tests/` | 25 structural tests. |
@@ -44,7 +47,7 @@ To re-run the model instead, see "Reproducing a result from scratch" below.
 
 ## Verification
 
-Five independent checks. All should pass on a clean checkout.
+Six independent checks. All should pass on a clean checkout.
 
 | Command | What it establishes |
 |---|---|
@@ -53,14 +56,27 @@ Five independent checks. All should pass on a clean checkout.
 | `python verify_mechanisms.py` | Each optional mechanism does what it is documented to do, and nothing when off. 39 assertions. |
 | `python verify_noop.py` | Every additive engine change is byte-identical to the prior model when disabled. 18 paths. |
 | `python verify_token_arms.py` | The three readiness arms share one token history at every tick, including component and sender labels. 9,030 checks. |
+| `python verify_token_activation_invariance.py` | The three-arm result is identical under scheduled and immediate activation, replication by replication, and the scheduled arm reproduces the canonical output. Added in Round 4. |
 
-The last is the load-bearing one for the article's identification claim: if the arms ever diverge in what they hold, the comparison is between different worlds.
+`verify_token_arms.py` is the load-bearing check for the article's identification claim: if the arms ever diverge in what they hold, the comparison is between different worlds.
+
+`verify_reported_values.py` checks the 97 values of the August 2026 version. The values added in Round 4, from the immediate-manifestation runs, are recorded in the `LOG` files and CSVs of the three `results/20261006-*` directories and are not yet part of that script.
 
 ---
 
 ## Where each result comes from
 
-Main-text figures and the code and data behind them.
+Main-text figures and the code and data behind them. The current manuscript uses the Round 3 figure set; the generators named below for the August 2026 version are retained.
+
+| Article element | Produced by | Data |
+|---|---|---|
+| Figure 1, conceptual architecture | `make_round3_figures.py::figure1` | none, schematic |
+| Figure 2, elements before adoption | `make_round3_figures.py::figure2` | `results/20260731-endogenous/`, `results/20260816-carrier-diagnostics/`, `results/20260816-carrier-diagnostics-endo/` |
+| Figure 3, retention and conversion | `make_round3_figures.py::figure3` | `results/20260730-102229-comments/` |
+| Figure 4, element identity | `make_round3_figures.py::figure4` | `results/20260816-sourcenonredundant/` |
+| Figure 5, post-manifest retention | `make_round3_figures.py::figure5` | `results/20260730-093338-full/`, `results/20260730-102229-comments/` |
+
+August 2026 submission version:
 
 | Article element | Produced by | Data |
 |---|---|---|
@@ -87,6 +103,8 @@ Main-text results and the experiment that produced them.
 | Packetization falsification | `explore_packetization.py` | `20260815-packetization` |
 | Carrier-channel intervention | `explore_carrier_channel.py` | `20260815-carrier-channel` |
 | Activation-regime comparison | `explore_endogenous.py` | `20260731-endogenous` |
+| Immediate manifestation upon readiness (Round 4) | `ABM_PARTS=2imme python explore_endogenous.py`; `ABM_TRIGGER=immediate python explore_carrier_diagnostics.py` | `20261006-immediate-capacity`, `20261006-carrier-diagnostics-immediate` |
+| Three-arm invariance to the activation rule (Round 4) | `verify_token_activation_invariance.py` | `20261006-token-activation-invariance` |
 | Throughput matching | `explore_rate_matched.py` | `20260815-rate-matched` |
 | Tie-strength normalization | `explore_tiestrength_matched.py` | `20260815-tiestrength-matched` |
 | Advocates, and robustness across topology and size | `explore_changeagent.py`, `explore_changeagent_robust.py` | `20260814-changeagent`, `20260815-changeagent-robust` |

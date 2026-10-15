@@ -72,6 +72,11 @@ TABLE_SOURCE = {
                                   "relevant / nonmanifest / manifest / share (sd)"),
     "Three-arm cells": ("snr", "sourcecmp_{rule}.csv",
                         "adoption (sd) / carriers / evictions / distinct sources"),
+    "Immediate manifestation, carriers": ("cdi", "carrier_initial_vs_endpoint.csv + carrier_trajectory.csv + transfer_by_sender_state.csv",
+                                          "t0 / peak over fully-populated grid points / share nonmanifest (sd); reference rows from cd and cde"),
+    "Immediate manifestation, capacity": ("imc", "e2_capacity_immediate.csv", "final; reference columns from endo e2_capacity_{exogenous,endogenous}.csv"),
+    "Token activation invariance": ("tai", "token_activation_invariance.csv",
+                                    "paired return to flow under each trigger + max per-rep difference"),
     "Three-arm returns": ("snr", "sourcecmp_{rule}_raw.csv",
                           "paired return to flow + se + difference from compositional"),
 }
@@ -280,6 +285,14 @@ def main():
          f"interior in {FP.NUM[str(v['w5c_interior'])]} of the {FP.NUM[v['w5c_cells']]}",
          f"results/{FP.SRC['w5c']}/w5c_member_gated.csv, argmax per (loss, rival)"),
     ]
+    # immediate manifestation upon readiness (2026-10-06): prose values via the shared builders
+    import fold_immediate_docx as FI
+    iv = FI.values()
+    for needle in (f"to a peak of {iv['g1_pk']}", f"from {iv['g2_0']} to {iv['g2_pk']}",
+                   f"and {iv['share']} of successful relevant transfers", iv["caps"],
+                   f"to be {iv['maxdiff']:g}"):
+        prose_checks.append((FI.LOCATOR, needle,
+                             f"results/{FT.SRC['cdi']}, {FT.SRC['imc']}, {FT.SRC['tai']} via shared builders"))
     for locator, needle, src in prose_checks:
         hits = [p for p in paras if locator in p.text]
         found = any(needle in p.text for p in hits)

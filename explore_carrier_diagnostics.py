@@ -33,8 +33,10 @@ from abm.model import World
 REPS = int(os.environ.get("ABM_REPS", "200"))
 # optional: run the same diagnostic under endogenous activation so that
 # Figure 2 can show both panels under one regime.
-TRIG = ({"trigger_type": "endogenous"}
-        if os.environ.get("ABM_TRIGGER") == "endogenous" else {})
+# ABM_TRIGGER=immediate (added 2026-10-06, round-4 comment C18): manifestation as soon
+# as readiness is recomputed, i.e. the exogenous trigger firing every tick.
+TRIG = {"endogenous": {"trigger_type": "endogenous"},
+        "immediate": {"trigger_time": 1}}.get(os.environ.get("ABM_TRIGGER"), {})
 HERE = os.path.dirname(os.path.abspath(__file__))
 STAMP = time.strftime("%Y%m%d-%H%M%S")
 OUT = os.path.join(HERE, "results", os.environ.get("ABM_OUT", f"{STAMP}-carrier-diagnostics"))

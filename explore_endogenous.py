@@ -154,11 +154,17 @@ def main():
 
     log("\n## E2  capacity transition under each trigger type")
     raw2, agg2 = [], []
-    for trig in [t for t in ("exogenous", "endogenous") if f"2{t[:4]}" in PARTS]:
+    # "immediate" (added 2026-10-06 for round-4 comment C18): manifestation as soon as
+    # readiness is recomputed, i.e. the exogenous trigger firing every tick. Run with
+    # ABM_PARTS=2imme. The other two regimes are unchanged.
+    e2_regimes = {"exogenous": {"trigger_type": "exogenous"},
+                  "endogenous": {"trigger_type": "endogenous"},
+                  "immediate": {"trigger_type": "exogenous", "trigger_time": 1}}
+    for trig in [t for t in e2_regimes if f"2{t[:4]}" in PARTS]:
         line = []
         for cap in CAPS:
             tag = f"{trig}/cap{cap}"
-            a = cell("V1", {"capacity": cap, "trigger_type": trig}, raw2, tag)
+            a = cell("V1", {"capacity": cap, **e2_regimes[trig]}, raw2, tag)
             agg2.append({"trigger_type": trig, "capacity": cap, **a})
             line.append((cap, a["final"]))
             write(agg2, f"e2_capacity_{trig}.csv")

@@ -468,7 +468,7 @@ def figureS_advocates():
     ax.set_xticklabels(["1x", "2x", "4x", "8x"])
     ax.set_xlabel("advocate transmission multiplier"); ax.set_ylabel("final adoption")
     ax.set_ylim(0, .85)
-    ax.set_title("B. Sign changes with the binding constraint", loc="left")
+    ax.set_title("B. Return to advocate activity differs by capacity", loc="left")
     ax.legend(frameon=False, fontsize=6.5)
     fig.tight_layout()
     save(fig, "figureS_advocates.png")
@@ -486,14 +486,14 @@ def figureS_carriers():
     """Sensitivity of the carrier construct to its threshold, under both regimes."""
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.7), sharey=True)
     srcs = [("20260816-carrier-diagnostics", "A. Scheduled activation"),
-            ("20260816-carrier-diagnostics-endo", "B. Endogenous activation")]
+            ("20260816-carrier-diagnostics-endo", "B. Locally triggered activation")]
     for ax, (d, title) in zip(axes, srcs):
         ct = [r for r in rows(d, "carrier_trajectory.csv") if int(r["n"]) >= 200]
         t = [int(r["t"]) for r in ct]
         ends = {r["measure"]: r for r in rows(d, "carrier_initial_vs_endpoint.csv")}
-        for key, col, lab in (("carrier_ge1", COMP, "carrier: at least 1 component"),
+        for key, col, lab in (("carrier_ge1", COMP, "carrier: at least 1 element"),
                               ("carrier_ge2", "#8c3b3b",
-                               "carrier: at least 2 (= k-1) components")):
+                               "carrier: at least 2 (= k-1) elements")):
             y = [float(r[key]) for r in ct]
             ax.plot(t, y, "o-", color=col, lw=1.5, ms=3, label=lab)
             ax.axhline(float(ends[key]["t0"]), color=col, lw=.8, ls=":", alpha=.7)

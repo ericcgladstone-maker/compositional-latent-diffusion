@@ -1,0 +1,13 @@
+rule,capacity,loss_rate,n,return_scheduled,return_immediate,se_scheduled,max_abs_per_rep_diff,scheduled_vs_canon_mismatches,identical
+compositional,6,0.0,200,-0.0575,-0.0575,0.006,0.0,0,True
+compositional,6,0.01,200,0.059,0.059,0.0044,0.0,0,True
+compositional,5,0.0,200,-0.0322,-0.0322,0.0052,0.0,0,True
+compositional,5,0.01,200,0.0178,0.0178,0.0038,0.0,0,True
+source,6,0.0,200,0.0105,0.0105,0.0083,0.0,0,True
+source,6,0.01,200,0.1852,0.1852,0.0075,0.0,0,True
+source,5,0.0,200,0.033,0.033,0.009,0.0,0,True
+source,5,0.01,200,0.1404,0.1404,0.0086,0.0,0,True
+count,6,0.0,200,-0.0088,-0.0088,0.0088,0.0,0,True
+count,6,0.01,200,0.2154,0.2154,0.0085,0.0,0,True
+count,5,0.0,200,0.0169,0.0169,0.0101,0.0,0,True
+count,5,0.01,200,0.173,0.173,0.0102,0.0,0,True

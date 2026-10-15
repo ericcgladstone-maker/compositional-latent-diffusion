@@ -41,6 +41,10 @@ SRC = {
     "ss":    "20260817-seedsource",
     "endo":  "20260731-endogenous",
     "rev":   "20260730-132108-reversibility",
+    # immediate manifestation upon readiness (round-4 comment C18, 2026-10-06)
+    "cdi":   "20261006-carrier-diagnostics-immediate",
+    "imc":   "20261006-immediate-capacity",
+    "tai":   "20261006-token-activation-invariance",
 }
 # Any entry can be repointed for a dry run, e.g. SRC_w4567=20260729-122300-comments2
 for _k in list(SRC):
@@ -565,12 +569,70 @@ def t_seedsource():
     return _build
 
 
+# ------------------------------- immediate manifestation upon readiness (2026-10)
+IMM_REGIMES = [("cd", "Scheduled"), ("cde", "Endogenous"), ("cdi", "Immediate")]
+
+
+def _carrier_peak(key, col):
+    # same rule as t_carrier_diag: only grid points at which every replication is
+    # still running count toward the peak
+    traj = rows(key, "carrier_trajectory.csv")
+    full = max(int(r["n"]) for r in traj)
+    return max(float(r[col]) for r in traj if int(r["n"]) >= full)
+
+
+def t_imm_carriers():
+    def _build(_hdr=None):
+        """Carrier build-up and nonmanifest traffic share under three activation timings.
+
+        Immediate manifestation is a different stochastic regime, not a paired
+        same-history contrast: the main engine draws activation from the same random
+        stream as transmission, so element histories differ across timings.
+        """
+        out = {}
+        for key, regime in IMM_REGIMES:
+            ends = {r["measure"]: r for r in rows(key, "carrier_initial_vs_endpoint.csv")}
+            tr = {r["measure"]: r for r in rows(key, "transfer_by_sender_state.csv")}
+            out[regime] = [f2(ends["carrier_ge1"]["t0"]), f2(_carrier_peak(key, "carrier_ge1")),
+                           f2(ends["carrier_ge2"]["t0"]), f2(_carrier_peak(key, "carrier_ge2")),
+                           f"{float(tr['share_nonmanifest']['mean']):.2f} "
+                           f"({float(tr['share_nonmanifest']['sd']):.2f})"]
+        return out
+    return _build
+
+
+def t_imm_capacity():
+    ex = {g(r["capacity"]): r for r in rows("endo", "e2_capacity_exogenous.csv")}
+    en = {g(r["capacity"]): r for r in rows("endo", "e2_capacity_endogenous.csv")}
+    im = {g(r["capacity"]): r for r in rows("imc", "e2_capacity_immediate.csv")}
+    def build(hdr):
+        return {c: [f2(ex[c]["final"]), f2(en[c]["final"]), f2(im[c]["final"])] for c in im}
+    return build
+
+
+def t_token_invariance():
+    def _build(_hdr=None):
+        out = {}
+        for r in rows("tai", "token_activation_invariance.csv"):
+            out[(r["rule"], r["capacity"], g(r["loss_rate"]))] = [
+                f"{float(r['return_scheduled']):+.3f}", f"{float(r['return_immediate']):+.3f}",
+                f"{float(r['max_abs_per_rep_diff']):g}"]
+        return out
+    return _build
+
+
 def identify(hdr):
     """Which follow-up table is this, from its header row alone? None if not one.
 
     Shared by the folder and the verifier so both agree on what a table is.
     """
     h0 = hdr[0]
+    if h0 == "Activation timing" and "Share from nonmanifest sender" in hdr:
+        return "Immediate manifestation, carriers"
+    if h0 == "Capacity" and "Adoption, immediate manifestation" in hdr:
+        return "Immediate manifestation, capacity"
+    if h0 == "Readiness rule" and "Return to flow, immediate" in hdr:
+        return "Token activation invariance"
     if h0 == "k \\ capacity":
         return "W1 capacity x k"
     if h0 == "boost \\ enhanced":
@@ -669,6 +731,9 @@ BUILDERS = {
     "Seeded-source sensitivity": (t_seedsource, "triple", 3),
     "Count-only returns": (t_countonly_returns, "triple", 3),
     "Packetization contrasts": (t_packet_contrasts, "pair", 2),
+    "Immediate manifestation, carriers": (t_imm_carriers, "simple", 1),
+    "Immediate manifestation, capacity": (t_imm_capacity, "simple", 1),
+    "Token activation invariance": (t_token_invariance, "triple", 3),
     "W5b loss ladder": (t_w5b, "ladder", 2),
     "W5c member-gated": (t_w5c, "ladder", 2),
 }
